@@ -70,8 +70,6 @@
                             <th>Description</th>
                             <th class="text-right">Quantity</th>
                             <th class="text-right">Unit Price</th>
-                            <th t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">Disc.(%)</th>
-                            <th class="text-right">Taxes</th>
                             <th class="text-right" groups="sale.group_show_price_subtotal">Amount</th>
                             <th class="text-right price_tax_included" groups="sale.group_show_price_total">Total Price</th>
                         </tr>
@@ -97,12 +95,6 @@
                                     </td>
                                     <td class="text-right">
                                         <span t-field="l.price_unit"/>
-                                    </td>
-                                    <td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
-                                        <span t-field="l.discount"/>
-                                    </td>
-                                    <td class="text-right">
-                                        <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_id))"/>
                                     </td>
                                     <td class="text-right" groups="sale.group_show_price_subtotal">
                                         <span t-field="l.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
@@ -144,16 +136,7 @@
                             </tr>
                             <t t-foreach="doc._get_tax_amount_by_group()" t-as="amount_by_group">
                                 <tr style="border-bottom:1px solid #dddddd;">
-                                    <t t-if="amount_by_group[3] == 1 and doc.amount_untaxed == amount_by_group[2]">
-                                        <td>
-                                            <span t-esc="amount_by_group[0]"/>
-                                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/></span>
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-esc="amount_by_group[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                        </td>
-                                    </t>
-                                    <t t-else="">
+                                    <t>
                                         <td>
                                             <span t-esc="amount_by_group[0]"/>
                                         </td>
